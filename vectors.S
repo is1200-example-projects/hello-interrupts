@@ -97,11 +97,17 @@ STUB 63
 .global _isr_stub
 _isr_stub:
 	movi $k0, PORTE
-	addi $k1, $0, 22
+	addi $k1, $0, 5
 	sw $k1, ($k0)
-	j _isr_stub
+1:
+	movi $k1, PORTD
+	lw $k1, ($k1)
+	andi $k1, $k1, 256
+	beq $k1, $0, _isr_stub
 	nop
-	mfc0 $k0, $14, 0
+	addi $k1, $0, -1
+	movi $k0, IFS0CLR
+	sw $k1, ($k0)
 	eret
 	nop
 
@@ -179,7 +185,7 @@ _isr_primary_install:
 .word _isr_stub
 .word _isr_stub
 .word _isr_stub
-.word _isr_test
+.word _isr_stub
 
 
 # Exceptions are handled here (trap, syscall, etc)
@@ -187,10 +193,14 @@ _isr_primary_install:
 .set noreorder
 .ent _gen_exception
 _gen_exception:
+	movi $k0, PORTE
+	addi $k1, $0, 254
+	sw $k1, ($k0)
 	mfc0 $k0, $14, 0
 	addi $k0, $k0, 4
 	mtc0 $k0, $14, 0
 	eret
+	nop
 
 .end _gen_exception
 
