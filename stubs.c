@@ -1,4 +1,4 @@
-#include <proc/p32mx320f128h.h>
+#include <pic32mx.h>
 
 void _nmi_handler() {
 	ODCE = 0;

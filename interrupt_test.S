@@ -1,3 +1,5 @@
+#include <pic32mx.h>
+
 .macro movi reg, val
 	lui \reg, %hi(\val)
 	ori \reg, \reg, %lo(\val)
@@ -33,13 +35,13 @@ _enable_int_number:
 	nop
 
 	## Mask out the lower 5 bits and place in $t1
-	movi $t2, IEC1
-	movi $t5, IFS1CLR
+	movi $t2, IEC(1)
+	movi $t5, IFSCLR(1)
 	j Lintsetbank
 	nop
 Lintbank_0:
-	movi $t5, IFS0CLR
-	movi $t2, IEC0
+	movi $t5, IFSCLR(0)
+	movi $t2, IEC(0)
 
 Lintsetbank:
 	## Set bit in Interrupt Enable (IECx) for provided interrupt

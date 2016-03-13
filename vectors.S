@@ -1,3 +1,4 @@
+#include <pic32mx.h>
 
 .macro movi reg, val
 	lui \reg, %hi(\val)
@@ -106,7 +107,7 @@ _isr_stub:
 	beq $k1, $0, _isr_stub
 	nop
 	addi $k1, $0, -1
-	movi $k0, IFS0CLR
+	movi $k0, IFSCLR(0)
 	sw $k1, ($k0)
 	eret
 	nop

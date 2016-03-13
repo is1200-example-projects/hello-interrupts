@@ -1,5 +1,4 @@
-#include <proc/p32mx320f128h.h>
-#include <cp0defs.h>
+#include <pic32mx.h>
 
 extern void *__use_isr_install;
 extern void _make_syscall();
@@ -18,7 +17,7 @@ int main(void) {
 	ODCE = 0;
 	TRISECLR = 0xFF;
 
-	_enable_int_number(7, &IPC1, 1, 0);
+	_enable_int_number(7, (void *) IPC(1), 1, 0);
 	_enable_interrupt();
 
 
